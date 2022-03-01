@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class GuidanceControl : MonoBehaviour
 {
-
-    private ParticleSystem particleSystem;
+    private Outline outline;
     public bool IsInView(Vector3 worldPos)
     {
         Transform camTransform = Camera.main.transform;
@@ -21,21 +20,22 @@ public class GuidanceControl : MonoBehaviour
 
     private void Start()
     {
-        particleSystem = GetComponent<ParticleSystem>();
-        particleSystem.Stop();
+        outline = gameObject.AddComponent<Outline>();
+
+        outline.OutlineMode = Outline.Mode.OutlineAll;
+        outline.OutlineColor = Color.yellow;
+        outline.OutlineWidth = 5f;
     }
 
     private void Update()
     {
         if (IsInView(transform.position))
         {
-            Debug.Log("In view.");
-            particleSystem.Emit(5);
+            outline.enabled = true;
         }
         else
         {
-            Debug.Log("Not in view.");
-            particleSystem.Stop();
+            outline.enabled = false;
         }
     }
 }
